@@ -17,10 +17,10 @@ public class CellManager extends Group {
 	private int mCellInterval;//格子间的空隙
 	
 	//格子显示区域
-	private final int BOUNDS_WIDTH = 400;//480;
-	private final int BOUNDS_HEIGHT = 400;//480;
+	private final int BOUNDS_WIDTH = 600;
+	private final int BOUNDS_HEIGHT = 600;
 	private final int BOUNDS_X = (Data.SCREEN_WIDTH - BOUNDS_WIDTH) / 2;
-	private final int BOUNDS_Y = 350;
+	private final int BOUNDS_Y = 200;
 	
 	public static CellManager getInstance() {
 		if (instance == null) {
