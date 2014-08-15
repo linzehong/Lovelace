@@ -15,12 +15,14 @@ public class GameScreen implements Screen {
 	private Stage mStage;
 	private BG mBG;
 	private CellManager mCellManager;
+	private Score mScore;
 	
 	//Ä¿±êÎ»ÖÃ
 	private int mTargetIndexA;
 	private int mTargetIndexB;
 
 	private int mCurLevel = 0;
+	private int mCurScore = 0;
 	
 	public static GameScreen getInstance() {
 		if (instance == null) {
@@ -51,6 +53,10 @@ public class GameScreen implements Screen {
 			mCellManager.dispose();
 			mCellManager = null;
 		}
+		if (mScore != null) {
+			mScore.dispose();
+			mScore = null;
+		}
 	}
 	
 	@Override
@@ -69,6 +75,9 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
+		mCurLevel = 0;
+		mCurScore = 0;
+		
 		mStage = new Stage(new ScalingViewport(Scaling.stretch, Data.SCREEN_WIDTH, Data.SCREEN_HEIGHT));
 		
 		mBG = new BG();
@@ -76,8 +85,11 @@ public class GameScreen implements Screen {
 		mCellManager = CellManager.getInstance();
 		mCellManager.init();
 		
+		mScore = new Score();
+		
 		mStage.addActor(mBG);
 		mStage.addActor(mCellManager);
+		mStage.addActor(mScore.getLabelScore());
 		
 		Gdx.input.setInputProcessor(mStage);
 	}
@@ -116,6 +128,9 @@ public class GameScreen implements Screen {
 	public void touchCell(int posA, int posB) {
 		if ((posA == mTargetIndexA) && (posB == mTargetIndexB)) {
 			++mCurLevel;
+			
+			++mCurScore;
+			mScore.displayScore(mCurScore);
 			
 			mCellManager.reset();
 			mCellManager.init();
