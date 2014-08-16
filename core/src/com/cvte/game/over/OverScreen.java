@@ -95,7 +95,7 @@ public class OverScreen implements Screen {
 		mLbRestart.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Lovelace.getInstance().jumpScreen(Lovelace.SCREEN_GAME);
+				restart();
 			}
 		});
 		
@@ -104,7 +104,7 @@ public class OverScreen implements Screen {
 		mLbQuit.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Lovelace.getInstance().jumpScreen(Lovelace.SCREEN_GAME);
+				quit();
 			}
 		});
 		
@@ -136,6 +136,14 @@ public class OverScreen implements Screen {
 
 		mLbOT.setBounds(50, 400, Data.SCREEN_WIDTH - 100, 450);
 		mLbOT.setWrap(true);
+	}
+	
+	private void restart() {
+		Lovelace.getInstance().jumpScreen(Lovelace.SCREEN_GAME);
+	}
+	
+	private void quit() {
+		Lovelace.getInstance().quit();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.cvte.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.cvte.game.game.GameScreen;
 import com.cvte.game.over.OverScreen;
@@ -37,6 +38,11 @@ public class Lovelace extends Game {
 	public void dispose() {
 		super.dispose();
 		
+		if (mCurScreen != null) {
+			mCurScreen.dispose();
+			mCurScreen = null;
+		}
+		
 		SoundManager.getInstance().dispose();
 	}
 	
@@ -65,6 +71,10 @@ public class Lovelace extends Game {
 			break;
 		}
 		setScreen(mCurScreen);
+	}
+	
+	public void quit() {
+		Gdx.app.exit();
 	}
 	
 }
