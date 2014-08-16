@@ -38,18 +38,7 @@ public class CellManager extends Group {
 	}
 	
 	public void dispose() {
-		if (mCells != null) {
-			int length = mCells.length;
-			for (int i = 0; i < length; ++i) {
-				for (int j = 0; j < length; ++j) {
-					if (mCells[i][j] != null) {
-						mCells[i][j].dispose();
-						mCells[i][j] = null;
-					}
-				}
-			}
-			mCells = null;
-		}
+		disposeCells();
 		
 		instance = null;
 	}
@@ -60,6 +49,10 @@ public class CellManager extends Group {
 	}
 	
 	public void reset() {
+		disposeCells();
+	}
+	
+	private void disposeCells() {
 		if (mCells != null) {
 			int length = mCells.length;
 			for (int i = 0; i < length; ++i) {
@@ -75,7 +68,7 @@ public class CellManager extends Group {
 	}
 	
 	public void init() {
-		mCellNumInLine = CellData.getCellNumInLine(GameScreen.getInstanceValue().getCurLevel());
+		mCellNumInLine = CellData.getCellNumInLine(Data.mCurLevel);
 		calcCellWidthAndInterval();
 		
 		mCells = new Cell[mCellNumInLine][mCellNumInLine];

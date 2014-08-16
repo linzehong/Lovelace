@@ -7,7 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.cvte.game.Data;
+import com.cvte.game.Lovelace;
 import com.cvte.game.game.cell.CellManager;
+import com.cvte.game.game.heart.HeartManager;
 
 public class GameScreen implements Screen {
 	private static GameScreen instance;
@@ -15,14 +17,14 @@ public class GameScreen implements Screen {
 	private Stage mStage;
 	private BG mBG;
 	private CellManager mCellManager;
+	private HeartManager mHeartManager;
 	private Score mScore;
 	
 	//Ä¿±êÎ»ÖÃ
 	private int mTargetIndexA;
 	private int mTargetIndexB;
 
-	private int mCurLevel = 0;
-	private int mCurScore = 0;
+
 	
 	public static GameScreen getInstance() {
 		if (instance == null) {
@@ -53,10 +55,16 @@ public class GameScreen implements Screen {
 			mCellManager.dispose();
 			mCellManager = null;
 		}
+		if (mHeartManager != null) {
+			mHeartManager.dispose();
+			mHeartManager = null;
+		}
 		if (mScore != null) {
 			mScore.dispose();
 			mScore = null;
 		}
+		
+		instance = null;
 	}
 	
 	@Override
@@ -75,8 +83,9 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		mCurLevel = 0;
-		mCurScore = 0;
+		Data.mCurLevel = 0;
+		Data.mCurScore = 0;
+		Data.mCurHeart = Data.MAX_HEART_NUM;
 		
 		mStage = new Stage(new ScalingViewport(Scaling.stretch, Data.SCREEN_WIDTH, Data.SCREEN_HEIGHT));
 		
@@ -85,10 +94,15 @@ public class GameScreen implements Screen {
 		mCellManager = CellManager.getInstance();
 		mCellManager.init();
 		
+		mHeartManager = HeartManager.getInstance();
+		mHeartManager.init();
+		
 		mScore = new Score();
+		mScore.displayScore(Data.mCurScore);
 		
 		mStage.addActor(mBG);
 		mStage.addActor(mCellManager);
+		mStage.addActor(mHeartManager);
 		mStage.addActor(mScore.getLabelScore());
 		
 		Gdx.input.setInputProcessor(mStage);
@@ -121,20 +135,38 @@ public class GameScreen implements Screen {
 		System.out.println(i + " " + j);
 	}
 	
-	public int getCurLevel() {
-		return mCurLevel;
-	}
-	
 	public void touchCell(int posA, int posB) {
 		if ((posA == mTargetIndexA) && (posB == mTargetIndexB)) {
-			++mCurLevel;
+			++Data.mCurLevel;
 			
-			++mCurScore;
-			mScore.displayScore(mCurScore);
+			++Data.mCurScore;
+			mScore.displayScore(Data.mCurScore);
 			
 			mCellManager.reset();
 			mCellManager.init();
 		}
+		else {
+			--Data.mCurHeart;
+			mHeartManager.update(Data.mCurHeart);
+			
+			if (Data.mCurHeart <= 0) {
+				Lovelace.getInstance().jumpScreen(Lovelace.SCREEN_OVER);
+			}
+		}
+	}
+	
+	private void restart() {
+		Data.mCurLevel = 0;
+		Data.mCurScore = 0;
+		Data.mCurHeart = Data.MAX_HEART_NUM;
+		
+		mCellManager.reset();
+		mCellManager.init();
+		
+		mHeartManager.reset();
+		mHeartManager.init();
+		
+		mScore.displayScore(Data.mCurScore);
 	}
 
 }

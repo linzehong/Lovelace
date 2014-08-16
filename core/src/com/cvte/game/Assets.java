@@ -2,18 +2,19 @@ package com.cvte.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 
 
 public class Assets {
 	private static Assets instance;
 	
-//	private TextureAtlas mAtlas;
-	
 	private static Texture mTextureBG;
 	private static Texture mTextureCell;
-	private static Texture mTextureSquare;
-	private static Texture mTextureArrow;
+	private static Texture mTextureHeart;
+	
+	private static BitmapFont mBFontScore;
+	private static BitmapFont mBFontOT;
 	
 	public static Assets getInstance() {
 		if (instance == null) {
@@ -27,16 +28,22 @@ public class Assets {
 	}
 	
 	private Assets() {
-//		mAtlas = new TextureAtlas(Gdx.files.internal("atlas.txt"));
+
 	}
 	
 	public void dispose() {
-//		if (mAtlas != null) {
-//			mAtlas.dispose();
-//			mAtlas = null;
-//		}
-		
 		mTextureBG = null;
+		mTextureCell = null;
+		mTextureHeart = null;
+		
+		if (mBFontScore != null) {
+			mBFontScore.dispose();
+			mBFontScore = null;
+		}
+		if (mBFontOT != null) {
+			mBFontOT.dispose();
+			mBFontOT = null;
+		}
 		
 		instance = null;
 	}
@@ -55,62 +62,25 @@ public class Assets {
 		return mTextureCell;
 	}
 	
-	public static Texture getTextureSquare() {
-		if (mTextureSquare == null) {
-			mTextureSquare = new Texture(Gdx.files.internal("btn0.png"));
+	public static Texture getTextureHeart() {
+		if (mTextureHeart == null) {
+			mTextureHeart = new Texture(Gdx.files.internal("heart.png"));
 		}
-		return mTextureSquare;
-	}
-
-	public static Texture getTextureArrow() {
-		if (mTextureArrow == null) {
-			mTextureArrow = new Texture(Gdx.files.internal("btn1.png"));
-		}
-		return mTextureArrow;
+		return mTextureHeart;
 	}
 	
-//	public TextureRegion getBackGround() {
-//		return mAtlas.findRegion("background1");
-//	}
-//
-//	public TextureRegion getEarch() {
-//		return mAtlas.findRegion("bottom");
-//	}
-//
-//	public TextureRegion getReady() {
-//		return mAtlas.findRegion("hint1");
-//	}
-//
-//	public TextureRegion getTipTap() {
-//		return mAtlas.findRegion("confirm");
-//	}
-//
-//	public TextureRegion getConduit(boolean isDown) {
-//		String regionName = (isDown) ? ("conduit/conduitA1") : ("conduit/conduitA2");
-//		return mAtlas.findRegion(regionName);
-//	}
-//
-//	private final String[] BIRD_REGION_NAMES = {
-//			"bird/BBird1", "bird/BBird2", "bird/BBird3",
-//	};
-//
-//	public TextureRegion getBird(int index) {
-//		return mAtlas.findRegion(BIRD_REGION_NAMES[index]);
-//	}
-//
-//	public TextureRegion getOver() {
-//		return mAtlas.findRegion("hint2");
-//	}
-//
-//	public TextureRegion getScoreBoard() {
-//		return mAtlas.findRegion("bangdan");
-//	}
-//
-//	public TextureRegion getButtonStart() {
-//		return mAtlas.findRegion("button");
-//	}
-//
-//	public TextureRegion getButtonRank() {
-//		return mAtlas.findRegion("button2");
-//	}
+	public static BitmapFont getBFontScore() {
+		if (mBFontScore == null) {
+			mBFontScore = new BitmapFont(Gdx.files.internal("num.fnt"));
+		}
+		return mBFontScore;
+	}
+	
+	public static BitmapFont getBFontOT() {
+		if (mBFontOT == null) {
+			mBFontOT= new BitmapFont(Gdx.files.internal("chot.fnt"));
+		}
+		return mBFontOT;
+	}
+	
 }

@@ -15,11 +15,6 @@ public class CellData {
 		Color.YELLOW,Color.MAGENTA,Color.CYAN,Color.OLIVE,Color.PURPLE,Color.MAROON,
 	};
 	
-	//用户称号
-	private final static String[] USER_NAMES = {
-		"瞎子","色盲","色郎","色狼","色鬼","色魔","超级色魔","变态色魔","孤独求色"
-	};
-	
 	public static int getCellNumInLine(int level) {
 		int num = 0;
 		num = level + 2;
@@ -47,19 +42,6 @@ public class CellData {
 		newColor.set(color);
 		newColor.mul(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1);
 		return newColor;
-	}
-	
-	/**
-	 * 获得用户称号
-	 * @param level
-	 * @return
-	 */
-	public static String getUserName(int level) {
-		int index = level>>1;
-		if (index > USER_NAMES.length - 1) {
-			index = USER_NAMES.length - 1;
-		}
-		return USER_NAMES[index];
 	}
 	
 }
